@@ -1,0 +1,39 @@
+name: Build .NET 8 Template
+
+on:
+  workflow_call:
+    inputs:
+      project-name:
+        required: true
+        type: string
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show project name
+        run: |
+          echo ""                                               
+          echo "  | |                         (_)             "
+          echo "  | |     ___  __ _ _ __ _ __  _ _ __   __ _  "
+          echo "  | |    / _ \/ _` | '__| '_ \| | '_ \ / _` | "
+          echo "  | |___|  __/ (_| | |  | | | | | | | | (_| | "
+          echo "  |______\___|\__,_|_|  |_| |_|_|_| |_|\__, | "
+          echo "                                        __/ | "
+          echo "                                       |___/  " 
+          echo ""                                               
+          echo " Setting up ${{ inputs['project-name'] }}"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with: 
+            dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
