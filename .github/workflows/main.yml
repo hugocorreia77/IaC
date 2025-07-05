@@ -28,8 +28,6 @@ jobs:
           echo " Setting up ${{ inputs['project-name'] }}"
   build:
     runs-on: ubuntu-latest
-    env:
-      CSPROJ_PATH: ${{ github.event.inputs.project-path }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
@@ -37,8 +35,8 @@ jobs:
         with: 
             dotnet-version: 8.0.x
       - name: Restore dependencies
-        run: dotnet restore $CSPROJ_PATH
+        run: dotnet restore ${{ inputs.project-path }}
       - name: Build
-        run: dotnet build $CSPROJ_PATH --no-restore 
+        run: dotnet build ${{ inputs.project-path }} --no-restore 
       - name: Test
-        run: dotnet test $CSPROJ_PATH --no-build --verbosity normal
+        run: dotnet test ${{ inputs.project-path }} --no-build --verbosity normal
