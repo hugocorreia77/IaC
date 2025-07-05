@@ -67,8 +67,6 @@ jobs:
         with:
           name: pacote-nuget
           path: ./nupkgs
-      - name: Restore dependencies
-        run: dotnet restore ${{ inputs.project-path }}
       - name: Publish NuGet Package
         run: dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SOURCE }} --skip-duplicate
   
