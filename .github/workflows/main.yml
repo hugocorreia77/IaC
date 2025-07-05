@@ -6,10 +6,15 @@ on:
       project-name:
         required: true
         type: string
+      project-path:
+        required: true
+        type: string
 
 jobs:
   setup:
     runs-on: ubuntu-latest
+    env:
+      CSPROJ_PATH: ${{ github.event.inputs.project-path }}
     steps:
       - name: Show project name
         run: |
@@ -32,8 +37,8 @@ jobs:
         with: 
             dotnet-version: 8.0.x
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore $CSPROJ_PATH
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore $CSPROJ_PATH
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --no-build --verbosity normal $CSPROJ_PATH
