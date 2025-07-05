@@ -39,7 +39,7 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore ${{ inputs.project-path }}/${{ inputs.project-name }}.csproj
       - name: Build
-        run: dotnet build ${{ inputs.project-path }}/${{ inputs.project-name }}.csproj --no-restore -c Release -o output
+        run: dotnet build ${{ inputs.project-path }}/${{ inputs.project-name }}.csproj --no-restore -c Release
       - name: Test
         run: dotnet test ${{ inputs.project-path }}/${{ inputs.project-name }}.csproj --no-build --verbosity normal
       - name: Generate version number
