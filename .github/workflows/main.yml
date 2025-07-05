@@ -9,7 +9,8 @@ on:
       project-path:
         required: true
         type: string
-
+permissions:
+  packages: write
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -43,12 +44,14 @@ jobs:
 
   pack:
     runs-on: ubuntu-latest
-    env:
-      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      NUGET_SOURCE: ${{ secrets.NUGET_SOURCE }}
+    environment: production 
+    needs: build
     steps:
+     - name: Generate version number
+       id: version
+       run: echo "VERSION=$(date +'%Y%m%d.%H%M')" >> $GITHUB_ENV
      - name: Generate NuGet Package
-       run: dotnet pack ${{ inputs.project-path }} --configuration Release --no-build --output ./nupkgs
+       run: dotnet pack ${{ inputs.project-path }} --configuration Release --no-build --output ./nupkgs -p:Version=$VERSION
      - name: Publish NuGet Package
-       run: dotnet nuget push "./nupkgs/*.nupkg" --api-key "$NUGET_API_KEY" --source "$NUGET_SOURCE" --skip-duplicate
+       run: dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SOURCE }} --skip-duplicate
   
