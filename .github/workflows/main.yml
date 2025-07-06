@@ -67,6 +67,10 @@ jobs:
         with:
           name: pacote-nuget
           path: ./nupkgs
+      - name: Debug variável NUGET_SOURCE
+        run: echo "Source -> ${{ secrets.NUGET_SOURCE != '' && 'definido' || 'vazio' }}"
+      - name: Debug variável NUGET_API_KEY
+        run: echo "Source -> ${{ secrets.NUGET_API_KEY != '' && 'definido' || 'vazio' }}"
       - name: Publish NuGet Package
         run: dotnet nuget push "./nupkgs/*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source ${{ secrets.NUGET_SOURCE }} --skip-duplicate
   
