@@ -9,6 +9,11 @@ on:
       project-path:
         required: true
         type: string
+    secrets:
+      NUGET_SOURCE:
+        required: true
+      NUGET_API_KEY:
+        required: true
 permissions:
   packages: write
 jobs:
@@ -55,7 +60,6 @@ jobs:
     
   pack:
     runs-on: ubuntu-latest
-    environment: testenv 
     needs: build
     steps:
       - name: Setup .NET
