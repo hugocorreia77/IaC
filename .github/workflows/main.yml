@@ -55,7 +55,7 @@ jobs:
     
   pack:
     runs-on: ubuntu-latest
-    environment: Production 
+    environment: testenv 
     needs: build
     steps:
       - name: Setup .NET
